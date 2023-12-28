@@ -18,7 +18,7 @@ function initialize() {
       playerSubmarine,
       playerDestroyer,
     ];
-    // player1.ships = [playerDestroyer]
+
     const playerShips = player1.ships;
 
     const compCarrier = new Ship("Carrier", 5);
@@ -35,7 +35,7 @@ function initialize() {
       compSubmarine,
       compDestroyer,
     ];
-    // computer.ships = [compDestroyer]
+
 
     computer.gameboard.randomShipPlacement(computer.ships);
 
@@ -71,6 +71,7 @@ function initialize() {
       const startY = cell.getAttribute("data-ycoord");
       const name = cell.getAttribute("data-player");
       const currentShip = playerShips[currentShipIndex];
+      const text = document.querySelector(".text");
 
       // Check if the ship can be placed at the clicked cell
       if (
@@ -88,20 +89,25 @@ function initialize() {
         // Move to the next ship
         currentShipIndex++;
 
+        console.log(currentShipIndex)
+        console.log(playerShips.length)
         // Check if all ships have been placed
         if (currentShipIndex === playerShips.length) {
           console.log("All player ships have been placed.");
-          resolve({ player1, computer, done: true });
+
           cells.forEach(function (cell) {
             cell.removeEventListener("click", shipEvent);
             cell.removeEventListener("mouseover", hoverEvent);
             cell.removeEventListener("mouseleave", leaveEvent);
+            leaveEvent()
           });
-        } else {
-          console.log(
-            `Place ${playerShips[currentShipIndex].name} on the board.`,
-          );
+
+          text.textContent = `All Ships Have Been Placed!  Make the first attack`;
+
+          resolve({ player1, computer, done: true });
         }
+
+        text.textContent = `Place your ${playerShips[currentShipIndex].name}`;
       }
     }
 
@@ -174,8 +180,6 @@ function initialize() {
           }
         }
       }
-
-      this.hoverCells = hoverCells
     }
 
 
