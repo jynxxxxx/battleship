@@ -10,8 +10,6 @@ initialize()
       directionbtn.remove();
 
       gameplay(player1, computer);
-      console.log(player1);
-      console.log(computer);
     } else {
       console.log("Initialization failed: Not all ships are placed.");
     }

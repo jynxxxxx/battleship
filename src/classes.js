@@ -372,7 +372,7 @@ function isValidCoordinate(x, y) {
 
   const yCharCode = y.charCodeAt(0)
 
-  return yCharCode >= minY && xCharCode <= maxY && x >= minX && x <= maxX
+  return yCharCode >= minY && yCharCode <= maxY && x >= minX && x <= maxX
 }
 
 module.exports = { Ship, Gameboard, Player }

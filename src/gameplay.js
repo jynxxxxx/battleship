@@ -31,7 +31,7 @@ function gameplay(player1, computer) {
         if (currentPlayer === player1 && !gameOver) {
           const x = cell.getAttribute("data-xcoord");
           const y = cell.getAttribute("data-ycoord");
-          text.textContent = `You attacked ${x}${y}`;
+          text.textContent = `You attacked ${y}${x}`;
           setTimeout(() => {
             computer.attackEnemy(x, y); // Player attacks the computer
             console.log("playerdone");
@@ -46,7 +46,7 @@ function gameplay(player1, computer) {
               const computerAttack = computer.computerAttack(); // Implement computer's attack logic
               const computerAttackX = computerAttack.x;
               const computerAttackY = computerAttack.y;
-              text.textContent = `The Enemy attacked ${computerAttackX}${computerAttackY}`;
+              text.textContent = `The Enemy attacked ${computerAttackY}${computerAttackX}`;
               setTimeout(() => {
                 player1.receiveAttack(
                   computerAttackX,
