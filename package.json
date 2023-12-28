@@ -6,8 +6,10 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
-    "test": "jest"
+    "format": "prettier --write",
+    "test": "jest",
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "jest": {
     "testEnvironment": "jsdom"
@@ -18,11 +20,13 @@
   "devDependencies": {
     "@babel/core": "^7.22.20",
     "@babel/preset-env": "^7.22.20",
+    "@testing-library/jest-dom": "^6.1.5",
     "babel-jest": "^29.7.0",
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-jest": "^27.6.0",
     "eslint-plugin-n": "^16.1.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-promise": "^6.1.1",

@@ -1,5 +1,5 @@
 class Ship {
-  constructor (name, size) {
+  constructor(name, size) {
     this.name = name
     this.size = size
     this.coordinates = []
@@ -7,14 +7,14 @@ class Ship {
     this.sunk = false
   }
 
-  hit () {
+  hit() {
     this.hitCount += 1
     if (this.hitCount === this.size) {
       this.sunk = true
     }
   }
 
-  isSunk () {
+  isSunk() {
     if (this.size === this.hitCount) {
       this.sunk = true
       return `You sunk the ${this.name}`
@@ -23,11 +23,12 @@ class Ship {
 }
 
 class Gameboard {
-  constructor (name) {
+  constructor(name) {
     this.name = name
 
-    const xCoords = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
-    const yCoords = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    const xCoords = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    const yCoords = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+
 
     const battlefield = document.querySelector('.battlefield')
 
@@ -45,7 +46,7 @@ class Gameboard {
     for (let i = 0; i < 10; i++) {
       const cell = document.createElement('div')
       cell.classList.add('label')
-      cell.textContent = xCoords[i]
+      cell.textContent = yCoords[i]
       rowLabels.appendChild(cell)
     }
 
@@ -84,8 +85,8 @@ class Gameboard {
       for (let y = 0; y < 10; y++) {
         const cell = document.createElement('div')
         cell.classList.add('cell')
-        cell.dataset.xcoord = xCoords[i]
-        cell.dataset.ycoord = yCoords[y]
+        cell.dataset.xcoord = xCoords[y]
+        cell.dataset.ycoord = yCoords[i]
         cell.dataset.player = `${name}`
 
         row.appendChild(cell)
@@ -95,7 +96,7 @@ class Gameboard {
     }
   }
 
-  placeShip (ship, startX, startY, isVertical) {
+  placeShip(ship, startX, startY, isVertical) {
     if (this.placementValid(ship, startX, startY, isVertical)) {
       for (let i = 0; i < ship.size; i++) {
         const shipCell = document.querySelector(
@@ -106,9 +107,9 @@ class Gameboard {
         shipCell.classList.add(`${ship.name}`)
 
         if (isVertical) {
-          startX = String.fromCharCode(startX.charCodeAt(0) + 1)
+          startY = String.fromCharCode(startY.charCodeAt(0) + 1)
         } else {
-          startY++
+          startX++
         }
       }
       return true // Ship placed successfully
@@ -116,16 +117,16 @@ class Gameboard {
     return false // Ship placement failed
   }
 
-  placementValid (ship, startX, startY, isVertical) {
+  placementValid(ship, startX, startY, isVertical) {
     // Check if the ship will fit on the gameboard
     if (
       isVertical &&
-      startX.charCodeAt(0) + ship.size - 65 > 10
+      startY.charCodeAt(0) + ship.size - 65 > 10
     ) {
       return false
     } else if (
       !isVertical &&
-      parseInt(startY) + ship.size - 1 > 10
+      parseInt(startX) + ship.size - 1 > 10
     ) {
       return false
     }
@@ -139,16 +140,16 @@ class Gameboard {
       }
 
       if (isVertical) {
-        startX = String.fromCharCode(startX.charCodeAt(0) + 1)
+        startY = String.fromCharCode(startY.charCodeAt(0) + 1)
       } else {
-        startY++
+        startX++
       }
     }
 
     return true
   }
 
-  randomShipPlacement (ships) {
+  randomShipPlacement(ships) {
     if (this.name === 'Computer') {
       const compShips = [...ships]
 
@@ -156,8 +157,8 @@ class Gameboard {
         const currentShip = compShips[i]
 
         while (true) {
-          const startY = Math.floor(Math.random() * 10) + 1
-          const startX = String.fromCharCode(65 + Math.floor(Math.random() * 10))
+          const startY = String.fromCharCode(65 + Math.floor(Math.random() * 10))
+          const startX = Math.floor(Math.random() * 10) + 1
           const isVertical = Math.random() < 0.5 // Randomly choose vertical or horizontal placement
 
           if (this.placementValid(currentShip, startX, startY, isVertical)) {
@@ -174,7 +175,7 @@ class Gameboard {
 }
 
 class Player {
-  constructor (name) {
+  constructor(name) {
     this.name = name
     this.gameboard = new Gameboard(name)
     this.ships = []
@@ -184,7 +185,7 @@ class Player {
     this.currentDirection = ''
   }
 
-  attackEnemy (x, y) {
+  attackEnemy(x, y) {
     const text = document.querySelector('.text')
 
     const attackCell = document.querySelector(
@@ -214,7 +215,7 @@ class Player {
     }
   }
 
-  receiveAttack (x, y, computer) {
+  receiveAttack(x, y, computer) {
     const attackCell = document.querySelector(
       `.cell[data-xcoord='${x}'][data-ycoord='${y}'][data-player='Player']`
     )
@@ -249,26 +250,26 @@ class Player {
     }
   }
 
-  hitNextMove (lastHit) {
+  hitNextMove(lastHit) {
     // Calculate the next attack based on the current direction
     const { x, y } = lastHit
 
     console.log(`currDir: '${this.currentDirection}`)
     switch (this.currentDirection) {
       case 'up':
-        return { x: String.fromCharCode(x.charCodeAt(0) - 1), y }
+        return { x: x - 1, y }
       case 'down':
-        return { x: String.fromCharCode(x.charCodeAt(0) + 1), y }
+        return { x: x + 1, y }
       case 'left':
-        return { x, y: y - 1 }
+        return { x, y: String.fromCharCode(y.charCodeAt(0) - 1) }
       case 'right':
-        return { x, y: y + 1 }
+        return { x, y: String.fromCharCode(y.charCodeAt(0) + 1) }
       default:
         return null
     }
   }
 
-  getDirection (prev, current) {
+  getDirection(prev, current) {
     // Determine the direction from the previous hit to the current attack
     if (prev.x === current.x) {
       if (prev.y < current.y) {
@@ -287,7 +288,7 @@ class Player {
     }
   }
 
-  changeDirection (currentDirection) {
+  changeDirection(currentDirection) {
     // Function to change the current direction based on the previous hit
     switch (currentDirection) {
       case 'up':
@@ -303,7 +304,7 @@ class Player {
     }
   }
 
-  computerAttack () {
+  computerAttack() {
     let x, y
 
     if (this.lastHit) {
@@ -334,16 +335,16 @@ class Player {
 
       if (failcount === 4) {
         // If no valid moves after 4 attempts, make a random move
-        x = String.fromCharCode(65 + Math.floor(Math.random() * 10))
-        y = Math.floor(Math.random() * 10) + 1
+        x = Math.floor(Math.random() * 10) + 1
+        y = String.fromCharCode(65 + Math.floor(Math.random() * 10))
         console.log(`No valid moves after 4 attempts: x: ${x}, y: ${y}`)
         this.lastHit = ''
         failcount = 0
       }
     } else {
       do {
-        x = String.fromCharCode(65 + Math.floor(Math.random() * 10))
-        y = Math.floor(Math.random() * 10) + 1
+        x = Math.floor(Math.random() * 10) + 1
+        y = String.fromCharCode(65 + Math.floor(Math.random() * 10))
         console.log(`Random move: x: ${x}, y: ${y}`)
         this.currentDirection = this.directions[Math.floor(Math.random() * this.directions.length)]
       } while (this.previousAttacks.has(`${x}${y}`) || !isValidCoordinate(x, y))
@@ -359,19 +360,19 @@ class Player {
   }
 }
 
-function isValidCoordinate (x, y) {
-  const minX = 'A'.charCodeAt(0)
-  const maxX = 'J'.charCodeAt(0)
-  const minY = 1
-  const maxY = 10
+function isValidCoordinate(x, y) {
+  const minX = 1
+  const maxX = 10
+  const minY = 'A'.charCodeAt(0)
+  const maxY = 'J'.charCodeAt(0)
 
-  if (typeof x !== 'string' || typeof y !== 'number') {
+  if (typeof x !== 'number' || typeof y !== 'string') {
     return false // Return false if x or y is not in the expected format
   }
 
-  const xCharCode = x.charCodeAt(0)
+  const yCharCode = y.charCodeAt(0)
 
-  return xCharCode >= minX && xCharCode <= maxX && y >= minY && y <= maxY
+  return yCharCode >= minY && xCharCode <= maxY && x >= minX && x <= maxX
 }
 
-export { Ship, Player }
+module.exports = { Ship, Gameboard, Player }
