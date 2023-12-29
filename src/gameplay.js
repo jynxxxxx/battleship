@@ -14,7 +14,6 @@ function gameplay(player1, computer) {
     }
     if (computer.ships.every((ship) => ship.isSunk())) {
       gameOver = true;
-      console.log("Game over for computer");
       const text = document.querySelector(".text");
       text.textContent = `${player1.name} wins! Game over.`;
     }
