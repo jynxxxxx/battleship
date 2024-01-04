@@ -4,10 +4,9 @@ import { gameplay } from "./gameplay";
 initialize()
   .then(({ player1, computer, done }) => {
     if (done) {
-      // Start the gameplay function when initialize is done and 'done' is true
 
-      const directionbtn = document.querySelector(".direction");
-      directionbtn.remove();
+      const directionctn = document.querySelector(".dirctn");
+      directionctn.remove();
 
       gameplay(player1, computer);
     } else {
