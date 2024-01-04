@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BattleShip</title>
+  <link href="./style.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Rubik+Mono+One&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <div class="masterctn">
+    <div class="title">BattleShip</div>
+    <div class="text">Place your Carrier</div>
+    <div class="battlefield">
+      <div class="dirctn"> Current Ship Alignment:
+        <span> <button class="direction">Vertical</button></span>
+      </div>
+    </div>
+
+    <div class="overlay">
+      <div class="logoctn">
+        <img class="logo" src="./images/logo.png" alt="Battleship">
+      </div>
+      <div class="formcontainer">
+        <form action="" method="get" id="aform">
+          <ul class="input">
+            <li><label class="namelabel" for="name">Enter Player Name:</label>
+              <p><input type="text" id="name" required></p>
+            </li>
+          </ul>
+          <div class="btnctn">
+            <button type="submit" class="start">Start Game!</button>
+          </div>
+      </div>
+    </div>
+  </div>
+  <script src="./main.js"></script>
+
+</body>
+
+</html>
